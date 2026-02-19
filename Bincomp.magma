@@ -64,8 +64,8 @@ procedure Prnt(A, B, S)
 
 end procedure;
 
-for As := 0 to ((2^3)-1) do
-    for Bs := 0 to ((2^3)-1) do
+for As := 0 to ((2^8)-1) do
+    for Bs := 0 to ((2^8)-1) do
         /*Comapre A and B and returns the highest value*/
         //S := CompBinH(As, Bs);
         /*Compare A and B and returns the Lowest value*/

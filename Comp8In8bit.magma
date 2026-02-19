@@ -52,7 +52,7 @@ Comp8 := function(A, B, C, D, E, F, G, H)
     return S;
 end function;
 
-/*Prints the  Test bench used in Xilinx vivado in VHDL*/
+/*Prints the  Test bench used in Xilinx vivado with System Verilog*/
 procedure Prnt(A, B, C, D, E, F, G, H, S, i)
 
     if (A le 0xF) then 
