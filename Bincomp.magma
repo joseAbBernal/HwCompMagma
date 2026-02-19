@@ -1,0 +1,85 @@
+/*
+------------------------------------------------------------------------------------
+Magma program to test a binary dual 8-bit input 
+------------------------------------------------------------------------------------
+*/
+
+clear;
+
+CompBinH := function(A, B)
+    S0 := 0;
+    if (A gt B)  then 
+        S0 := A;
+    elif (A lt B ) then
+        S0 := B;
+    elif (A eq B) then
+        S0 := A;
+    end if;
+    //Store the result into S signal
+    S := S0;
+    //return the result
+    return S;
+end function;
+
+CompBinL := function(A, B)
+    S0 := 0;
+    if (A lt B)  then 
+        S0 := A;
+    elif (A gt B ) then
+        S0 := B;
+    elif (A eq B) then
+        S0 := A;
+    end if;
+    //Store the result into S signal
+    S := S0;
+    //return the result
+    return S;
+end function;
+
+
+/*Prints the  Test bench used in Xilinx vivado in VHDL*/
+procedure Prnt(A, B, S)
+
+    if (A le 0xF) then 
+        Sprintf("\tAs = 8'h0%h;", A);
+    else
+        Sprintf("\tAs = 8'h%h;", A);
+    end if;
+
+    if (B le 0xF) then 
+        Sprintf("\tBs = 8'h0%h;", B);
+    else
+        Sprintf("\tBs = 8'h%h;", B);
+    end if;
+
+    Sprintf("\t#clk_period;");
+
+    if (S le 0xF) then 
+        Sprintf("\tif (Ss != 8'h0%h)", S);
+        Sprintf("\t\t $display(\"Error: Iteration %o, %o : 8'h0%h\");", A, B, S);
+    else
+        Sprintf("\tif (Ss != 8'h%h)", S);
+        Sprintf("\t\t $display(\"Error: Iteration %o, %o : 8'h%h\");", A, B, S);
+    end if;
+
+end procedure;
+
+for As := 0 to ((2^3)-1) do
+    for Bs := 0 to ((2^3)-1) do
+        /*Comapre A and B and returns the highest value*/
+        //S := CompBinH(As, Bs);
+        /*Compare A and B and returns the Lowest value*/
+        S := CompBinL(As, Bs);
+        /*Print Procedure to create the Bench for the modules CompBinTB.sv*/
+        Prnt(As, Bs, S);
+    end for;
+end for;
+
+Sprintf("\t#clk_period;");
+Sprintf("\t$display(\"========================================\");");
+Sprintf("\t$display(\"Testbench completed successfully ^o^ :) \");");
+Sprintf("\t$display(\"========================================\");");
+Sprintf("\t$finish;");
+Sprintf("end");
+
+exit;

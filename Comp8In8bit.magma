@@ -1,0 +1,155 @@
+/*
+------------------------------------------------------------------------------------
+Magma program to test a binary 8 inputs with 8-bit length inputs 
+------------------------------------------------------------------------------------
+*/
+
+CompBin := function(A, B)
+    S0 := 0;
+    if (A gt B)  then 
+        S0 := A;
+    elif (A lt B ) then
+        S0 := B;
+    elif (A eq B) then
+        S0 := A;
+    end if;
+    //Store the result into S signal
+    S := S0;
+    //return the result
+    return S;
+end function;
+
+Comp4 := function(A, B, C, D)
+    S0 := 0;
+    S1 := 0;
+    S2 := 0;
+    /*Compare The inputs A, B */
+    S0 := CompBin(A, B);
+    /*Compare the inputs C, D */
+    S1 := CompBin(C, D);
+    /*Compare the results of comparing (A,B) with (C,D)*/
+    S2 := CompBin(S0, S1);
+    //Store the result into S signal
+    S := S2;
+    //Return the result
+    return S;
+end function;
+
+Comp8 := function(A, B, C, D, E, F, G, H)
+    S0 := 0;
+    S1 := 0;
+    S2 := 0;
+
+    /*Compare the 4 inputs of 8-bit lenght A,B,C,D and return the highest*/
+    S0 := Comp4(A, B, C, D);
+    /*Compare the 4 inputs of 8-bit length E,F,G,H and return the highest*/
+    S1 := Comp4(E, F, G, H);
+    /*Compare the 2 results of the previous comparisons and returns the highest value*/
+    S2 := CompBin(S0, S1);
+    /*Store the highest value*/
+    S := S2;
+    /*Returns the higest value*/
+    return S;
+end function;
+
+/*Prints the  Test bench used in Xilinx vivado in VHDL*/
+procedure Prnt(A, B, C, D, E, F, G, H, S, i)
+
+    if (A le 0xF) then 
+        Sprintf("\tAs = 8'h0%h;", A);
+    else
+        Sprintf("\tAs = 8'h%h;", A);
+    end if;
+
+    if (B le 0xF) then 
+        Sprintf("\tBs = 8'h0%h;", B);
+    else
+        Sprintf("\tBs = 8'h%h;", B);
+    end if;
+
+    if (C le 0xF) then 
+        Sprintf("\tCs = 8'h0%h;", C);
+    else
+        Sprintf("\tCs = 8'h%h;", C);
+    end if;
+
+    if (D le 0xF) then 
+        Sprintf("\tDs = 8'h0%h;", D);
+    else
+        Sprintf("\tDs = 8'h%h;", D);
+    end if;
+
+    if (E le 0xF) then 
+        Sprintf("\tEs = 8'h0%h;", E);
+    else
+        Sprintf("\tEs = 8'h%h;", E);
+    end if;
+
+    if (F le 0xF) then 
+        Sprintf("\tFs = 8'h0%h;", F);
+    else
+        Sprintf("\tFs = 8'h%h;", F);
+    end if;
+
+    if (G le 0xF) then 
+        Sprintf("\tGs = 8'h0%h;", G);
+    else
+        Sprintf("\tGs = 8'h%h;", G);
+    end if;
+
+    if (H le 0xF) then 
+        Sprintf("\tHs = 8'h0%h;", H);
+    else
+        Sprintf("\tHs = 8'h%h;", H);
+    end if;
+
+    Sprintf("\t#(clk_period*3);");
+
+    if (S le 0xF) then 
+        Sprintf("\tif (Ss != 8'h0%h)", S);
+        Sprintf("\t\t$display(\"Error: Iteration %o : 8'h0%h\");", i, S);
+    else
+        Sprintf("\tif (Ss != 8'h%h)", S);
+        Sprintf("\t\t$display(\"Error: Iteration %o : 8'h%h\");", i, S);
+    end if;
+
+end procedure;
+
+for i := 0 to ((2^15) - 1) do 
+    
+    A := Random((2^8) - 1);
+    B := Random((2^8) - 1);
+    C := Random((2^8) - 1);
+    D := Random((2^8) - 1);
+    E := Random((2^8) - 1);
+    F := Random((2^8) - 1);
+    G := Random((2^8) - 1);
+    H := Random((2^8) - 1);
+
+    /*Comparison of the 8 inputs of 8-bit ea*/
+    S := Comp8(A,B,C,D,E,F,G,H);
+    /*Print the values of all inputs*/
+    /*
+    Sprintf("A := %h", A);
+    Sprintf("B := %h", B);
+    Sprintf("C := %h", C);
+    Sprintf("D := %h", D);
+    Sprintf("E := %h", E);
+    Sprintf("F := %h", F);
+    Sprintf("G := %h", G);
+    Sprintf("H := %h", H);
+    */
+    /*Prints the result of the comparison*/
+    //Sprintf("Highest value S := %h", S);
+    Prnt(A, B, C, D, E, F, G, H, S, i);
+end for;
+
+Sprintf("\t#clk_period;");
+Sprintf("\t$display(\"========================================\");");
+Sprintf("\t$display(\"Testbench completed successfully ^o^ :) \");");
+Sprintf("\t$display(\"========================================\");");
+Sprintf("\t$finish;");
+Sprintf("end");
+
+
+exit;
