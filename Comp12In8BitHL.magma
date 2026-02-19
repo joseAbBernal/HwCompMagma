@@ -135,27 +135,27 @@ procedure Prnt(A, B, C, D, E, F, G, H, AL, BL, CL, DL, SH, SL, i)
     end if;
     /*Inputs to get the lowest value */
     if (AL le 0xF) then 
-        Sprintf("\tAs = 8'h0%h;", AL);
+        Sprintf("\tALs = 8'h0%h;", AL);
     else
-        Sprintf("\tAs = 8'h%h;", AL);
+        Sprintf("\tALs = 8'h%h;", AL);
     end if;
 
     if (BL le 0xF) then 
-        Sprintf("\tBs = 8'h0%h;", BL);
+        Sprintf("\tBLs = 8'h0%h;", BL);
     else
-        Sprintf("\tBs = 8'h%h;", BL);
+        Sprintf("\tBLs = 8'h%h;", BL);
     end if;
 
     if (CL le 0xF) then 
-        Sprintf("\tCs = 8'h0%h;", CL);
+        Sprintf("\tCLs = 8'h0%h;", CL);
     else
-        Sprintf("\tCs = 8'h%h;", CL);
+        Sprintf("\tCLs = 8'h%h;", CL);
     end if;
 
     if (DL le 0xF) then 
-        Sprintf("\tDs = 8'h0%h;", DL);
+        Sprintf("\tDLs = 8'h0%h;", DL);
     else
-        Sprintf("\tDs = 8'h%h;", DL);
+        Sprintf("\tDLs = 8'h%h;", DL);
     end if;
     /*Prints the result of the comparison*/
     //Sprintf("Highest value SH := %h", SH);
